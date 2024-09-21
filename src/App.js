@@ -32,11 +32,13 @@ const App = () => {
                     'Content-Type': 'application/json'
                 }
             };
-            const response = await fetch('https://gemini-app-tpuc.vercel.app/gemini', options);
+            const response = await fetch('/api/gemini', options);
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
             const data = await response.text();
-            console.log(data);
-            setChatHistory(oldChatHistory => [...oldChatHistory, 
-                { role: "user", parts: value }, 
+            setChatHistory(oldChatHistory => [...oldChatHistory,
+                { role: "user", parts: value },
                 { role: "model", parts: data }
             ]);
         } catch (error) {
@@ -53,7 +55,7 @@ const App = () => {
 
     return (
         <div className="app">
-            <p>What do you want to know? 
+            <p>What do you want to know?
                 <button className="surprise" onClick={surprise}>Surprise me</button>
             </p>
 
@@ -80,6 +82,6 @@ const App = () => {
             </div>
         </div>
     );
-}
+};
 
 export default App;
